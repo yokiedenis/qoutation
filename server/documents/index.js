@@ -11,14 +11,19 @@ export default function (
       notes,
       subTotal,
       type,
+      stickerFee,
       vat,
+      levy,
+      stamp,
       total,
       items,
       status,
       totalAmountReceived,
       balanceDue,
       company,
-   }) {
+   })
+  
+   {
     const today = new Date();
 return `
 <!DOCTYPE html>
@@ -184,10 +189,21 @@ img {
           <td style="font-size: 9px">Sub Total</td>
           <td style="text-align: right; font-size: 9px; font-weight: 700">${subTotal}</td>
         </tr>
-
-        <tr>
-            <td style="font-size: 10px">VAT</td>
+<tr>
+            <td style="font-size: 10px">vat html</td>
             <td style="text-align: right; font-size: 9px; font-weight: 700">${vat}</td>
+          </tr>
+           <tr>
+            <td style="font-size: 10px">Training levy</td>
+            <td style="text-align: right; font-size: 9px; font-weight: 700">${levy}</td>
+          </tr>
+          <tr>
+            <td style="font-size: 10px">Stamp Duty</td>
+            <td style="text-align: right; font-size: 9px; font-weight: 700">${stamp}</td>
+          </tr>
+        <tr>
+            <td style="font-size: 10px">stickerFee</td>
+            <td style="text-align: right; font-size: 9px; font-weight: 700">${stickerFee}</td>
           </tr>
 
         <tr>

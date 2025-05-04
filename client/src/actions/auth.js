@@ -2,7 +2,7 @@ import * as api from '../api/index'
 import { AUTH, CREATE_PROFILE } from './constants'
 
 
-export const signin =(formData, openSnackbar, setLoading) => async(dispatch) => {
+export const signin =(formData, enqueueSnackbar, setLoading) => async(dispatch) => {
 
     try {
         //login the user
@@ -10,18 +10,18 @@ export const signin =(formData, openSnackbar, setLoading) => async(dispatch) => 
 
         dispatch({ type: AUTH, data})
         // setLoading(false)
-        openSnackbar("Signin successfull")
+        enqueueSnackbar("Signin successfull")
         // history.push('/dashboard')
         window.location.href="/dashboard"
 
     } catch (error) {
         // console.log(error?.response?.data?.message)
-        openSnackbar(error?.response?.data?.message)
+        enqueueSnackbar('Sign in failed. Please try again.')
         setLoading(false)
     }
 }
 
-export const signup =(formData, openSnackbar, setLoading) => async(dispatch) => {
+export const signup =(formData, enqueueSnackbar, setLoading) => async(dispatch) => {
 
     try {
         //Sign up the user
@@ -31,11 +31,11 @@ export const signup =(formData, openSnackbar, setLoading) => async(dispatch) => 
         dispatch({ type: CREATE_PROFILE, payload: info });
         window.location.href="/dashboard"
         // history.push('/dashboard')
-        openSnackbar("Sign up successfull")
+        enqueueSnackbar("Sign up successfull")
 
     } catch (error) {
         console.log(error)
-        openSnackbar(error?.response?.data?.message)
+        enqueueSnackbar('Account created successfully!')
         setLoading(false)
     }
 }

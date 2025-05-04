@@ -1,16 +1,16 @@
 {
   "name": "server",
-  "homepage": "accountill.com",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "keywords": [],
+  "homepage": "http://accountill.com",
+  "license": "ISC",
+  "author": "Panshak Solomon",
   "type": "module",
+  "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
-  "keywords": [],
-  "author": "Panshak Solomon",
-  "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",

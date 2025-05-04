@@ -26,7 +26,7 @@ import { useLocation } from 'react-router-dom';
 import { deleteInvoice, getInvoicesByUser } from '../../actions/invoiceActions';
 import NoData from '../svgIcons/NoData';
 import Spinner from '../Spinner/Spinner'
-import { useSnackbar } from 'react-simple-snackbar'
+import { useSnackbar } from 'notistack'
 
 const useStyles1 = makeStyles((theme) => ({
   root: {
@@ -121,7 +121,7 @@ const Invoices = () => {
   const rows = useSelector(state => state.invoices.invoices)
   const isLoading = useSelector(state => state.invoices.isLoading)
         // eslint-disable-next-line 
-  const [openSnackbar, closeSnackbar] = useSnackbar()
+        const { enqueueSnackbar }= useSnackbar()
 
   // const rows = []
 
@@ -229,7 +229,7 @@ const Invoices = () => {
                   </IconButton>
               </TableCell>
               <TableCell style={{...tableStyle, width: '10px'}}>
-                  <IconButton onClick={() => dispatch(deleteInvoice(row._id, openSnackbar))}>
+                  <IconButton onClick={() => dispatch(deleteInvoice(row._id, enqueueSnackbar))}>
                     <DeleteOutlineRoundedIcon  style={{width: '20px', height: '20px'}} />
                   </IconButton>
               </TableCell>

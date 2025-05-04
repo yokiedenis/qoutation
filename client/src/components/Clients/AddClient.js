@@ -13,7 +13,9 @@ import Typography from '@material-ui/core/Typography';
 
 import { useDispatch, useSelector } from 'react-redux'
 import { createClient, updateClient } from '../../actions/clientActions'
-import { useSnackbar } from 'react-simple-snackbar'
+import { useSnackbar } from 'notistack'
+
+
 
 const styles = (theme) => ({
   root: {
@@ -64,7 +66,7 @@ const AddClient = ({ setOpen, open, currentId, setCurrentId }) => {
   const dispatch = useDispatch()
   const client = useSelector((state) => currentId ? state.clients.clients.find((c) => c._id === currentId) : null)
   // eslint-disable-next-line 
-  const [openSnackbar, closeSnackbar] = useSnackbar()
+  const { enqueueSnackbar }= useSnackbar()
 
 
   useEffect(() => {
@@ -93,9 +95,9 @@ const AddClient = ({ setOpen, open, currentId, setCurrentId }) => {
   const handleSubmitClient = (e) => {
     e.preventDefault()
     if (currentId) {
-      dispatch(updateClient(currentId, clientData, openSnackbar))
+      dispatch(updateClient(currentId, clientData, enqueueSnackbar))
     } else {
-      dispatch(createClient(clientData, openSnackbar))
+      dispatch(createClient(clientData, enqueueSnackbar))
     }
 
     clear()

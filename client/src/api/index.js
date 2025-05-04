@@ -2,7 +2,7 @@ import axios from 'axios'
 
 // const API = axios.create({ baseURL: 'http://localhost:5000'})
 const API = axios.create({ baseURL: process.env.REACT_APP_API})
-
+console.log("api",API)
 API.interceptors.request.use((req) => {
     if(localStorage.getItem('profile')) {
         req.headers.authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`
@@ -34,7 +34,9 @@ export const reset = (formData) => API.post('/users/reset', formData);
 export const fetchProfilesBySearch = (searchQuery) => API.get(`/profiles/search?searchQuery=${searchQuery.search || searchQuery.year || 'none'}`);
 export const fetchProfile = (id) => API.get(`/profiles/${id}`)
 export const fetchProfiles = () => API.get('/profiles');
+console.log("api",fetchProfiles)
 export const fetchProfilesByUser = (searchQuery) => API.get(`/profiles?searchQuery=${searchQuery.search}`)
 export const createProfile = (newProfile) => API.post('/profiles', newProfile);
+console.log("api",createProfile)
 export const updateProfile = (id, updatedProfile) => API.patch(`/profiles/${id}`, updatedProfile);
 export const deleteProfile = (id) => API.delete(`/profiles/${id}`);

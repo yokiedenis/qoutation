@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
+import bgImage from "../../bg.png";
 
 export default makeStyles((theme) => ({
   paper: {
@@ -7,6 +8,9 @@ export default makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     padding: theme.spacing(0),
+  },
+  mainx:{
+background: `url(${bgImage})`
   },
   root: {
     '& .MuiTextField-root': {

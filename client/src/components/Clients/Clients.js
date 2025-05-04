@@ -22,7 +22,8 @@ import Container from '@material-ui/core/Container'
 import DeleteOutlineRoundedIcon from '@material-ui/icons/DeleteOutlineRounded';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import { Button } from '@material-ui/core';
-import { useSnackbar } from 'react-simple-snackbar'
+import { useSnackbar } from 'notistack'
+
 
 import { deleteClient } from '../../actions/clientActions';
 // import clients from '../../clients.json'
@@ -113,7 +114,7 @@ const Clients = ({ setOpen, setCurrentId, clients }) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(clients.length);
       // eslint-disable-next-line 
-      const [openSnackbar, closeSnackbar] = useSnackbar()
+      const { enqueueSnackbar }= useSnackbar()
 
   const dispatch = useDispatch()
   const rows = clients
@@ -176,7 +177,7 @@ const headerStyle = { borderBottom: 'none', textAlign: 'center'}
                   </IconButton>
               </TableCell>
               <TableCell style={{...tableStyle, width: '10px'}}>
-                  <IconButton onClick={() => dispatch(deleteClient(row._id, openSnackbar))}>
+                  <IconButton onClick={() => dispatch(deleteClient(row._id, enqueueSnackbar))}>
                     <DeleteOutlineRoundedIcon style={{width: '20px', height: '20px'}} />
                   </IconButton>
               </TableCell>

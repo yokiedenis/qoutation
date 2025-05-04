@@ -9,19 +9,19 @@ const profilesReducer = (state = { isLoading: true, profiles: [] }, action) => {
     case FETCH_PROFILES:
       return {
         ...state,
-        profiles: action.payload
+        profiles: action.payload.data
       }
     case FETCH_PROFILES_BY_USER:
       return { ...state, profiles: action.payload.data };
       
     case FETCH_PROFILE_BY_USER:
-      return {...state, profiles: action.payload }
+      return {...state, profiles: action.payload.data }
     case FETCH_PROFILE:
       // localStorage.setItem('userProfile', JSON.stringify({...action.payload}))
       return {...state, profile: action.payload }
     
     case CREATE_PROFILE:
-      return {...state, profiles: [...state.profiles, action.payload]}
+      return {...state, profiles: [...state.profiles, action.payload.data]}
     case UPDATE_PROFILE:
       return {...state, profiles: state.profiles.map((profile) => (profile._id === action.payload._id ? action.payload : profile))}
     case DELETE_PROFILE:

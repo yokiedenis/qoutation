@@ -14,7 +14,7 @@ const Footer = () => {
     return (
         <footer>
             <div className={styles.footerText}>
-            ©Panshak Solomon  | Made with ♥ in 🇳🇬 <span><a href="https://github.com/Panshak/accountill" target="_blank" rel="noopener noreferrer">[Download source code]</a></span>
+           <span>Copyright ©2024 NIC Holdings Ltd</span>
             </div>
             {user && (
             <FabButton />

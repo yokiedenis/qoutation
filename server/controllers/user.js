@@ -17,12 +17,12 @@ import ProfileModel from '../models/ProfileModel.js';
 
 export const signin = async (req, res)=> {
     const { email, password } = req.body //Coming from formData
-
+console.log(req.body)
     try {
-        const existingUser = await User.findOne({ email })
+        const existingUser = await User.findOne({ email }).lean();
         
         //get userprofile and append to login auth detail
-        const userProfile = await ProfileModel.findOne({ userId: existingUser?._id })
+        const userProfile = await ProfileModel.findOne({ userId: existingUser?._id }).lean();
 
         if(!existingUser) return res.status(404).json({ message: "User doesn't exist" })
 

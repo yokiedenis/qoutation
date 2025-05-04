@@ -14,7 +14,7 @@ import { useDispatch } from 'react-redux'
 import { createClient } from '../../actions/clientActions'
 import { useLocation } from 'react-router-dom';
 
-import { useSnackbar } from 'react-simple-snackbar'
+import { useSnackbar } from 'notistack'
 
 const styles = (theme) => ({
   root: {
@@ -65,7 +65,7 @@ const AddClient = ({ setOpen, open }) => {
     const dispatch = useDispatch()
     const user = JSON.parse(localStorage.getItem('profile'))
        // eslint-disable-next-line 
-       const [openSnackbar, closeSnackbar] = useSnackbar()
+       const { enqueueSnackbar }= useSnackbar()
 
 
     useEffect(() => {
@@ -80,7 +80,7 @@ const AddClient = ({ setOpen, open }) => {
 
     const handleSubmitClient =(e)=> {
         e.preventDefault()
-          dispatch(createClient(clientData, openSnackbar))
+          dispatch(createClient(clientData, enqueueSnackbar))
         
         clear()
         handleClose()

@@ -10,7 +10,7 @@ import { signup, signin } from '../../actions/auth'
 import { Avatar, Button, Paper, Grid, Typography, Container } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import { createProfile } from '../../actions/profile'
-import { useSnackbar } from 'react-simple-snackbar'
+import { useSnackbar } from 'notistack'
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 
@@ -26,7 +26,7 @@ const Login = () => {
     const history = useHistory()
     const [showPassword, setShowPassword] = useState(false);
      // eslint-disable-next-line 
-    const [openSnackbar, closeSnackbar] = useSnackbar()
+    const { enqueueSnackbar }= useSnackbar()
     const user = JSON.parse(localStorage.getItem('profile'))
     const [loading, setLoading] = useState(false)
     
@@ -38,9 +38,9 @@ const Login = () => {
     const handleSubmit =(e) => {
         e.preventDefault()
         if(isSignup) {
-            dispatch(signup(formData, openSnackbar, setLoading))
+            dispatch(signup(formData, enqueueSnackbar, setLoading))
         } else {
-            dispatch(signin(formData, openSnackbar, setLoading))
+            dispatch(signin(formData, enqueueSnackbar, setLoading))
         }
         setLoading(true)
     }
@@ -75,7 +75,7 @@ const Login = () => {
     }
 
     return (
-        <Container component="main" maxWidth="xs">
+        <Container component="main" className={classes.mainx} maxWidth="xs">
       <Paper className={classes.paper} elevation={2}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />

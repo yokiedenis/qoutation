@@ -8,7 +8,7 @@ const Donut = ({ unpaid, paid, partial }) => {
       chart: {
         type: 'donut',
       },
-      labels: ['Unpaid Invoices', 'Paid Invoices', 'Partially Paid'],
+      labels: ['Unpaid Qoutations', 'Paid Qoutations', 'Partially Qoutations'],
       responsive: [{
         breakpoint: 480,
         options: {

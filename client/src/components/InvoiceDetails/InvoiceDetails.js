@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 // import "../../../node_modules/react-progress-button/react-progress-button.css"
-import { useSnackbar } from 'react-simple-snackbar'
+import { useSnackbar } from 'notistack'
 import { useLocation, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { initialState } from '../../initialState'
@@ -36,7 +36,10 @@ const InvoiceDetails = () => {
     const location = useLocation()
     const [invoiceData, setInvoiceData] = useState(initialState)
     const [ rates, setRates] = useState(0)
+    const [stickerFee, setStickerFee] = useState(0)
     const [vat, setVat] = useState(0)
+    const [levy, setLevy] = useState(0)
+    const [stamp, setStamp] = useState(0)
     const [currency, setCurrency] = useState('')
     const [subTotal, setSubTotal] = useState(0)
     const [total, setTotal] = useState(0)
@@ -52,7 +55,7 @@ const InvoiceDetails = () => {
     const [sendStatus, setSendStatus] = useState(null)
     const [downloadStatus, setDownloadStatus] = useState(null)
     // eslint-disable-next-line
-    const [openSnackbar, closeSnackbar] = useSnackbar()
+    const { enqueueSnackbar }= useSnackbar()
     const user = JSON.parse(localStorage.getItem('profile'))
     
     const useStyles = makeStyles((theme) => ({
@@ -84,10 +87,15 @@ const InvoiceDetails = () => {
     const classes = useStyles()
 
     useEffect(() => {
+
         dispatch(getInvoice(id));
       },[id, dispatch, location]);
 
       useEffect(() => {
+        console.log("ghyt",invoice)
+        console.log("hti",invoice?.creator,user?.result._id)
+        console.log(invoice?.creator?.includes(user?.result?._id || user?.result?.googleId));
+        
         if(invoice) {
             //Automatically set the default invoice values as the ones in the invoice to be updated
             setInvoiceData(invoice)
@@ -96,12 +104,15 @@ const InvoiceDetails = () => {
             setType(invoice.type)
             setStatus(invoice.status)
             setSelectedDate(invoice.dueDate)
+            setStickerFee(invoice.stickerFee)
             setVat(invoice.vat)
+            setLevy(invoice.levy)
+            setStamp(invoice.stamp)
             setCurrency(invoice.currency)
             setSubTotal(invoice.subTotal)
             setTotal(invoice.total)
-            setCompany(invoice?.businessDetails?.data?.data)
-           
+            setCompany(invoice?.businessDetails?.data[0])
+          
         }
     }, [invoice])
 
@@ -130,7 +141,10 @@ const InvoiceDetails = () => {
       subTotal: toCommas(invoice.subTotal),
       total: toCommas(invoice.total),
       type: invoice.type,
-      vat: invoice.vat,
+      stickerFee: toCommas(invoice.stickerFee),
+      vat: toCommas(invoice.vat),
+      levy: toCommas(invoice.levy),
+      stamp: toCommas(invoice.stamp),
       items: invoice.items,
       status: invoice.status,
       totalAmountReceived: toCommas(totalAmountReceived),
@@ -144,7 +158,7 @@ const InvoiceDetails = () => {
         saveAs(pdfBlob, 'invoice.pdf')
       }).then(() =>  setDownloadStatus('success'))
   }
-
+// console.log("inside")
 
   //SEND PDF INVOICE VIA EMAIL
   const sendPdf = (e) => {
@@ -162,7 +176,10 @@ const InvoiceDetails = () => {
       subTotal: toCommas(invoice.subTotal),
       total: toCommas(invoice.total),
       type: invoice.type,
-      vat: invoice.vat,
+      stickerFee: invoice.stickerFee,
+      vat:invoice.vat,
+      levy:invoice.levy,
+      stamp:invoice.stamp,
       items: invoice.items,
       status: invoice.status,
       totalAmountReceived: toCommas(totalAmountReceived),
@@ -206,7 +223,7 @@ if(!invoice) {
                   <ProgressButton 
                     onClick={sendPdf} 
                     state={sendStatus}
-                    onSuccess={()=> openSnackbar("Invoice sent successfully")}
+                    onSuccess={()=> enqueueSnackbar("Invoice sent successfully")}
                   >
                   Send to Customer
                   </ProgressButton>
@@ -273,10 +290,10 @@ if(!invoice) {
                     {invoice?.creator?.includes(user?.result._id) && (
                       <Container style={{marginBottom: '20px'}}>
                         <Typography variant="overline" style={{color: 'gray'}} gutterBottom>From</Typography>
-                        <Typography variant="subtitle2">{invoice?.businessDetails?.data?.data?.businessName}</Typography>
-                        <Typography variant="body2">{invoice?.businessDetails?.data?.data?.email}</Typography>
-                        <Typography variant="body2">{invoice?.businessDetails?.data?.data?.phoneNumber}</Typography>
-                        <Typography variant="body2" gutterBottom>{invoice?.businessDetails?.data?.data?.address}</Typography>
+                        <Typography variant="subtitle2">{invoice?.businessDetails?.data[0]?.businessName}</Typography>
+                        <Typography variant="body2">{invoice?.businessDetails?.data[0]?.email}</Typography>
+                        <Typography variant="body2">{invoice?.businessDetails?.data[0]?.phoneNumber}</Typography>
+                        <Typography variant="body2" gutterBottom>{invoice?.businessDetails?.data[0]?.address}</Typography>
                       </Container>
                     )}
                     <Container>
@@ -311,7 +328,7 @@ if(!invoice) {
             <TableCell>Item</TableCell>
             <TableCell >Qty</TableCell>
             <TableCell>Price</TableCell>
-            <TableCell >Disc(%)</TableCell>
+            <TableCell >Rate(%)</TableCell>
             <TableCell >Amount</TableCell>
            
           </TableRow>
@@ -321,7 +338,7 @@ if(!invoice) {
             <TableRow key={index}>
               <TableCell  scope="row" style={{width: '40%' }}> <InputBase style={{width: '100%'}} outline="none" sx={{ ml: 1, flex: 1 }} type="text" name="itemName" value={itemField.itemName} placeholder="Item name or description" readOnly /> </TableCell>
               <TableCell align="right"> <InputBase sx={{ ml: 1, flex: 1 }} type="number" name="quantity" value={itemField?.quantity} placeholder="0" readOnly /> </TableCell>
-              <TableCell align="right"> <InputBase sx={{ ml: 1, flex: 1 }} type="number" name="unitPrice" value={itemField?.unitPrice} placeholder="0" readOnly /> </TableCell>
+              <TableCell align="right"> <InputBase sx={{ ml: 1, flex: 1 }} type="number" name="unitPrice" value={toCommas(itemField?.unitPrice)} placeholder="0" readOnly /> </TableCell>
               <TableCell align="right"> <InputBase sx={{ ml: 1, flex: 1 }} type="number" name="discount"  value={itemField?.discount} readOnly /> </TableCell>
               <TableCell align="right"> <InputBase sx={{ ml: 1, flex: 1 }} type="number" name="amount"  value={(itemField?.quantity * itemField.unitPrice) - (itemField.quantity * itemField.unitPrice) * itemField.discount / 100} readOnly /> </TableCell>
               
@@ -339,11 +356,23 @@ if(!invoice) {
                     <div className={styles.summary}>Invoice Summary</div>
                     <div className={styles.summaryItem}>
                         <p>Subtotal:</p>
-                        <h4>{subTotal}</h4>
+                        <h4>{toCommas(subTotal)}</h4>
                     </div>
                     <div className={styles.summaryItem}>
-                        <p>{`VAT(${rates}%):`}</p>
-                        <h4>{vat}</h4>
+                        <p>{`VAT (18%)`}</p>
+                        <h4>{toCommas(vat)}</h4>
+                    </div>
+                    <div className={styles.summaryItem}>
+                        <p>{`Training Levy (0.5%)`}</p>
+                        <h4>{toCommas(levy)}</h4>
+                    </div>
+                    <div className={styles.summaryItem}>
+                        <p>{`Stamp Duty`}</p>
+                        <h4>{toCommas(stamp)}</h4>
+                    </div>
+                    <div className={styles.summaryItem}>
+                        <p>{`stickerFee`}</p>
+                        <h4>{toCommas(stickerFee * invoice.items.reduce((sum, item) => sum + (parseInt(item.quantity) || 0), 0))}</h4>
                     </div>
                     <div className={styles.summaryItem}>
                         <p>Total</p>

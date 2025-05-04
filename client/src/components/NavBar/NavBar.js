@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation, Link } from 'react-router-dom'
-
+import imagex from "../../png-logo.png"
 const NavBar = () => {
 
   const location = useLocation()
@@ -18,7 +18,7 @@ const NavBar = () => {
   <ul className="navbar-nav">
     <li className="logo">
       <a href="/dashboard" className="nav-link">
-        <span className="link-text logo-text"><img style={{width: '50px'}} src="https://i.postimg.cc/hGZKzdkS/logo.png" alt="arc-invoice" /></span>
+        <span className="link-text logo-text"><img style={{width: '50px',backgroundColor:"white"}} src={imagex} alt="arc-invoice" /></span>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
       </a>
     </li>
@@ -38,7 +38,7 @@ const NavBar = () => {
     <li className="nav-item">
       <a href="/invoices" className="nav-link">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-layers"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-        <span className="link-text">Invoices</span>
+        <span className="link-text">Qoutations</span>
       </a>
     </li>
     <li className="nav-item">

@@ -56,11 +56,13 @@ export const getProfilesBySearch = (searchQuery) => async (dispatch) => {
 
 export const createProfile = (profile, history) => async (dispatch) => {
   try {
+    console.log("payload",profile)
     // dispatch({ type: START_LOADING })
     const { data } = await api.createProfile(profile);
     // history.push(`/profiles/${data._id}`)
 
     dispatch({ type: CREATE_PROFILE, payload: data });
+    console.log("payup",data)
     // dispatch({ type: END_LOADING })
   } catch (error) {
     console.log(error);

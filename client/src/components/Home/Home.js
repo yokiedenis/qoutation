@@ -1,19 +1,19 @@
 import React from 'react'
 import styles from './Home.module.css'
-
+import imagex from "../../imgx.jpeg"
 const Home = () => {
    
     return (
         <div className={styles.pageContainer}>
             
             <section className={styles.hero}>
-                <h1>Easiest invoicing for freelancers and small businesses</h1>
+                <h3>Qoutation System</h3>
                 <div className={styles.paragraph}>
                    
-                    <p>Free and Open Source Invoicing application made with MongoDB, Express, React & Nodejs</p>
+                    <p>Qoutation application made with MongoDB, Express, React & Nodejs</p>
                 </div>
                 <div className={styles.imgContainer}>
-                    <img src="https://res.cloudinary.com/almpo/image/upload/v1637241441/special/banner_izy4xm.png" alt="invoicing-app"/>
+                    <img src={imagex} alt="invoicing-app"/>
                 </div>
             </section>
         </div>

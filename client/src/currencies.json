@@ -1,5 +1,20 @@
 [
-            
+    {
+        "countryCode": "UG",
+        "label": "Uganda",
+        "value": "UGX",
+        "population": "33398682",
+        "capital": "Kampala",
+        "continentName": "Africa"
+    },
+    {
+        "countryCode": "US",
+        "label": "United States",
+        "value": "USD",
+        "population": "310232863",
+        "capital": "Washington",
+        "continentName": "North America"
+    },
             {
                 "countryCode": "NG",
                 "label": "Nigeria",
@@ -1856,14 +1871,7 @@
                 "capital": "",
                 "continentName": "Oceania"
             },
-            {
-                "countryCode": "US",
-                "label": "United States",
-                "value": "USD",
-                "population": "310232863",
-                "capital": "Washington",
-                "continentName": "North America"
-            },
+          
             {
                 "countryCode": "UY",
                 "label": "Uruguay",
