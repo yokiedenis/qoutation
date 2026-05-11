@@ -1,31 +1,29 @@
-import moment from 'moment'
+import moment from "moment";
 
-export default function (
-   { name,
-      address,
-      phone,
-      email,
-      dueDate,
-      date,
-      id,
-      notes,
-      subTotal,
-      type,
-      stickerFee,
-      vat,
-      levy,
-      stamp,
-      total,
-      items,
-      status,
-      totalAmountReceived,
-      balanceDue,
-      company,
-   })
-  
-   {
-    const today = new Date();
-return `
+export default function ({
+  name,
+  address,
+  phone,
+  email,
+  dueDate,
+  date,
+  id,
+  notes,
+  subTotal,
+  type,
+  stickerFee,
+  vat,
+  levy,
+  stamp,
+  total,
+  items,
+  status,
+  totalAmountReceived,
+  balanceDue,
+  company,
+}) {
+  const today = new Date();
+  return `
 <!DOCTYPE html>
 <html>
 <head>
@@ -142,14 +140,14 @@ img {
       </div>
 
     <div class="status" style="margin-top: -280px">
-        <h1 style="font-size: 12px">${Number(balanceDue) <= 0 ? 'Receipt' : type}</h1>
+        <h1 style="font-size: 12px">${Number(balanceDue) <= 0 ? "Receipt" : type}</h1>
         <p style="font-size: 8px; margin-bottom: 10px">${id}</p>
         <p class="title" style="font-size: 8px">Status</p>
         <h3 style="font-size: 12px">${status}</h3>
         <p class="title" style="font-size: 8px">Date</p>
-        <p  style="font-size: 9px" >${moment(date).format('ll')}</p>
+        <p  style="font-size: 9px" >${moment(date).format("ll")}</p>
         <p class="title"  style="font-size: 8px">Due Date</p>
-        <p  style="font-size: 9px">${moment(dueDate).format('ll')}</p>
+        <p  style="font-size: 9px">${moment(dueDate).format("ll")}</p>
         <p class="title"  style="font-size: 8px">Amount</p>
         <h3 style="font-size: 12px">${total}</h3>
     </div>
@@ -164,17 +162,19 @@ img {
     <th style="text-align: right; font-size: 9px">Amount</th>
   </tr>
 
-  ${
-   items.map((item) => (
- `  <tr>
+  ${items.map((item) => {
+    const qty = parseFloat(item.quantity) || 0;
+    const price = parseFloat(item.unitPrice) || 0;
+    const discount = parseFloat(item.discount) || 0;
+    const amount = qty * price - (qty * price * discount) / 100;
+    return `  <tr>
     <td style="font-size: 9px">${item.itemName}</td>
-    <td style="font-size: 9px">${item.quantity}</td>
-    <td style="font-size: 9px">${item.unitPrice}</td>
-    <td style="font-size: 9px">${item.discount}</td>
-    <td style="text-align: right; font-size: 9px">${(item.quantity * item.unitPrice) - (item.quantity * item.unitPrice) * item.discount / 100}</td>
-  </tr>`
-   ))
-  }
+    <td style="font-size: 9px">${qty}</td>
+    <td style="font-size: 9px">${price}</td>
+    <td style="font-size: 9px">${discount}</td>
+    <td style="text-align: right; font-size: 9px">${amount.toFixed(2)}</td>
+  </tr>`;
+  })}
 
 
 </table>
@@ -230,6 +230,5 @@ img {
   </div>
 </div>
 </body>
-</html>`
-;
-};
+</html>`;
+}
