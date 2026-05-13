@@ -7,7 +7,7 @@ import dotenv from "dotenv";
 import nodemailer from "nodemailer";
 import pdf from "html-pdf";
 import { fileURLToPath } from "url";
-import { dirname } from "path";
+import { dirname, join } from "path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -37,6 +37,9 @@ app.use("/invoices", invoiceRoutes);
 app.use("/clients", clientRoutes);
 app.use("/users", userRoutes);
 app.use("/profiles", profile);
+
+// Serve static files from React build
+app.use(express.static(join(__dirname, "../client/build")));
 
 // NODEMAILER TRANSPORT FOR SENDING INVOICE VIA EMAIL
 let transporter = null;
@@ -123,7 +126,12 @@ app.get("/fetch-pdf", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("SERVER IS RUNNING");
+  res.sendFile(join(__dirname, "../client/build/index.html"));
+});
+
+// SPA routing - serve index.html for all non-API routes
+app.get("*", (req, res) => {
+  res.sendFile(join(__dirname, "../client/build/index.html"));
 });
 
 const DB_URL = process.env.MONGO_URI;
