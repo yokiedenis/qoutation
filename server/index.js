@@ -33,13 +33,14 @@ app.use(
   }),
 );
 
+// Serve static files from React build FIRST (before routes)
+app.use(express.static(join(__dirname, "../client/build")));
+
+// API routes (higher priority than catch-all)
 app.use("/invoices", invoiceRoutes);
 app.use("/clients", clientRoutes);
 app.use("/users", userRoutes);
 app.use("/profiles", profile);
-
-// Serve static files from React build
-app.use(express.static(join(__dirname, "../client/build")));
 
 // NODEMAILER TRANSPORT FOR SENDING INVOICE VIA EMAIL
 let transporter = null;
@@ -105,11 +106,6 @@ app.post("/send-pdf", (req, res) => {
   });
 });
 
-//Problems downloading and sending invoice
-// npm install html-pdf -g
-// npm link html-pdf
-// npm link phantomjs-prebuilt
-
 //CREATE AND SEND PDF INVOICE
 app.post("/create-pdf", (req, res) => {
   pdf.create(pdfTemplate(req.body), {}).toFile("invoice.pdf", (err) => {
@@ -125,11 +121,7 @@ app.get("/fetch-pdf", (req, res) => {
   res.sendFile(`${__dirname}/invoice.pdf`);
 });
 
-app.get("/", (req, res) => {
-  res.sendFile(join(__dirname, "../client/build/index.html"));
-});
-
-// SPA routing - serve index.html for all non-API routes
+// SPA routing - serve index.html for all non-API routes (MUST be last)
 app.get("*", (req, res) => {
   res.sendFile(join(__dirname, "../client/build/index.html"));
 });

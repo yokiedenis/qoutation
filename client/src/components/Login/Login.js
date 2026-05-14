@@ -38,9 +38,9 @@ const Login = () => {
     const handleSubmit =(e) => {
         e.preventDefault()
         if(isSignup) {
-            dispatch(signup(formData, enqueueSnackbar, setLoading))
+            dispatch(signup(formData, enqueueSnackbar, setLoading, history))
         } else {
-            dispatch(signin(formData, enqueueSnackbar, setLoading))
+            dispatch(signin(formData, enqueueSnackbar, setLoading, history))
         }
         setLoading(true)
     }
@@ -57,8 +57,7 @@ const Login = () => {
 
         try {
             dispatch({ type: "AUTH", data: {result, token}})
-
-            window.location.href='/dashboard'
+            history.push('/dashboard')
             
         } catch (error) {
             console.log(error)
