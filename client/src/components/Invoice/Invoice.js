@@ -40,7 +40,6 @@ import {
 } from "../../actions/invoiceActions";
 import { getClientsByUser } from "../../actions/clientActions";
 import AddClient from "./AddClient";
-import InvoiceType from "./InvoiceType";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 
@@ -401,7 +400,6 @@ const Invoice = () => {
               {/* <Avatar alt="Logo" variant='square' src="" className={classes.large} /> */}
             </Grid>
             <Grid item>
-              <InvoiceType type={type} setType={setType} />
               Qoutation No.:
               <div
                 style={{
