@@ -57,7 +57,8 @@ const Login = () => {
 
         try {
             dispatch({ type: "AUTH", data: {result, token}})
-            history.push('/dashboard')
+
+            window.location.href='/dashboard'
             
         } catch (error) {
             console.log(error)
