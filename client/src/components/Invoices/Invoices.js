@@ -22,7 +22,6 @@ import Container from "@material-ui/core/Container";
 import DeleteOutlineRoundedIcon from "@material-ui/icons/DeleteOutlineRounded";
 import BorderColorIcon from "@material-ui/icons/BorderColor";
 import { useLocation } from "react-router-dom";
-import { toCommas } from "../../utils/utils";
 
 import { deleteInvoice, getInvoicesByUser } from "../../actions/invoiceActions";
 import NoData from "../svgIcons/NoData";
@@ -150,6 +149,10 @@ const Invoices = () => {
     );
     // eslint-disable-next-line
   }, [location]);
+
+  const toCommas = (value) => {
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
 
   const classes = useStyles2();
   const [page, setPage] = React.useState(0);

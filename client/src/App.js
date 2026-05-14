@@ -1,7 +1,7 @@
 //Copyright (c) 2022 Panshak Solomon
 
 import React from "react";
-import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
 import Home from "./components/Home/Home";
 import Invoice from "./components/Invoice/Invoice";
@@ -22,7 +22,7 @@ function App() {
 
   return (
     <div>
-      <HashRouter>
+      <BrowserRouter>
         <SnackbarProvider>
           {user && <NavBar />}
           <Header />
@@ -42,7 +42,7 @@ function App() {
           </Switch>
           <Footer />
         </SnackbarProvider>
-      </HashRouter>
+      </BrowserRouter>
     </div>
   );
 }
