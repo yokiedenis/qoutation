@@ -266,7 +266,6 @@ const Invoice = () => {
       const totalQuantity = invoiceData.items.reduce((sum, item) => {
         return sum + (parseInt(item.quantity) || 0);
       }, 0);
-      console.log("aty", totalQuantity);
 
       const stickerTotal = Number(stickerFee) * totalQuantity;
       const levy = (0.5 / 100) * subTotal;
@@ -276,7 +275,14 @@ const Invoice = () => {
       const vat = (18 / 100) * subtotalWithFees;
 
       // Stamp duty is multiplied by total quantity
-      const stampTotal = stamp * totalQuantity;
+      // Use stampUSD if it's a USD value, otherwise use the stored stamp value
+      const stampPerUnit =
+        stampUSD > 0 && stampUSD < 50
+          ? stampUSD * (exchangeRate || 1)
+          : stampUSD > 0
+            ? stampUSD
+            : stamp / (totalQuantity || 1);
+      const stampTotal = stampPerUnit * totalQuantity;
 
       //Total = subtotal + sticker fees + training levy + VAT + stamp
       const overallSum = subtotalWithFees + vat + stampTotal;
@@ -288,7 +294,7 @@ const Invoice = () => {
       setLevy(levy);
     };
     total();
-  }, [invoiceData, stickerFee, subTotal, stamp]);
+  }, [invoiceData, stickerFee, subTotal, stampUSD, exchangeRate]);
 
   const handleAddField = (e) => {
     e.preventDefault();
